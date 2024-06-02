@@ -130,123 +130,123 @@ app: mysql\
           name: mysql\
         volumeMounts:\
         - name: mysql-persistent-storage\
-          mountPath: /var/lib/mysql
-  volumeClaimTemplates:
-  - metadata:
-      name: mysql-persistent-storage
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 1Gi
+          mountPath: /var/lib/mysql\
+  volumeClaimTemplates:\
+  - metadata:\
+      name: mysql-persistent-storage\
+    spec:\
+      accessModes: [ "ReadWriteOnce" ]\
+      resources:\
+        requests:\
+          storage: 1Gi\
 
-**MySQL Headless Service**
+**MySQL Headless Service**\
 
-apiVersion: v1
-kind: Service
-metadata:
-  name: mysql
-spec:
-  ports:
-  - port: 3306
-    name: mysql
-  clusterIP: None
-  selector:
-    app: mysql
+apiVersion: v1\
+kind: Service\
+metadata:\
+  name: mysql\
+spec:\
+  ports:\
+  - port: 3306\
+    name: mysql\
+  clusterIP: None\
+  selector:\
+    app: mysql\
 
-**ReplicaSet and Service for API
-API ReplicaSet**
+**ReplicaSet and Service for API\
+API ReplicaSet**\
 
-apiVersion: apps/v1
-kind: ReplicaSet
-metadata:
-  name: api
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: api
-  template:
-    metadata:
-      labels:
-        app: api
-    spec:
-      containers:
-      - name: api
-        image: your-api-image
-        env:
-        - name: DB_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: api-config
-              key: DB_HOST
-        - name: DB_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: api-config
-              key: DB_PORT
-        - name: DB_NAME
-          valueFrom:
-            configMapKeyRef:
-              name: api-config
-              key: DB_NAME
-        - name: DB_USER
-          valueFrom:
-            secretKeyRef:
-              name: api-secret
-              key: DB_USER
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: api-secret
-              key: DB_PASSWORD
-        ports:
-        - containerPort: 8080
-          name: http
+apiVersion: apps/v1\
+kind: ReplicaSet\
+metadata:\
+  name: api\
+spec:\
+  replicas: 3\
+  selector:\
+    matchLabels:\
+      app: api\
+  template:\
+    metadata:\
+      labels:\
+        app: api\
+    spec:\
+      containers:\
+      - name: api\
+        image: your-api-image\
+        env:\
+        - name: DB_HOST\
+          valueFrom:\
+            configMapKeyRef:\
+              name: api-config\
+              key: DB_HOST\
+        - name: DB_PORT\
+          valueFrom:\
+            configMapKeyRef:\
+              name: api-config\
+              key: DB_PORT\
+        - name: DB_NAME\
+          valueFrom:\
+            configMapKeyRef:\
+              name: api-config\
+              key: DB_NAME\
+        - name: DB_USER\
+          valueFrom:\
+            secretKeyRef:\
+              name: api-secret\
+              key: DB_USER\
+        - name: DB_PASSWORD\
+          valueFrom:\
+            secretKeyRef:\
+              name: api-secret\
+              key: DB_PASSWORD\
+        ports:\
+        - containerPort: 8080\
+          name: http\
 
-**Horizontal Pod Autoscaler
-API HPA**
+**Horizontal Pod Autoscaler\
+API HPA**\
 
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
-metadata:
-  name: api-hpa
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: ReplicaSet
-    name: api
-  minReplicas: 3
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 50
+apiVersion: autoscaling/v1\
+kind: HorizontalPodAutoscaler\
+metadata:\
+  name: api-hpa\
+spec:\
+  scaleTargetRef:\
+    apiVersion: apps/v1\
+    kind: ReplicaSet\
+    name: api\
+  minReplicas: 3\
+  maxReplicas: 10\
+  targetCPUUtilizationPercentage: 50\
 
-**Deployment Steps
-Apply ConfigMaps and Secrets:**
+**Deployment Steps\
+Apply ConfigMaps and Secrets:**\
 
-kubectl apply -f mysql-configmap.yaml
-kubectl apply -f mysql-secret.yaml
-kubectl apply -f api-configmap.yaml
-kubectl apply -f api-secret.yaml
+kubectl apply -f mysql-configmap.yaml\
+kubectl apply -f mysql-secret.yaml\
+kubectl apply -f api-configmap.yaml\
+kubectl apply -f api-secret.yaml\
 
-**Apply PersistentVolume and PersistentVolumeClaim:**
+**Apply PersistentVolume and PersistentVolumeClaim:**\
 
-kubectl apply -f mysql-pv.yaml
-kubectl apply -f mysql-pvc.yaml
+kubectl apply -f mysql-pv.yaml\
+kubectl apply -f mysql-pvc.yaml\
 
-**Apply StatefulSet and Headless Service:**
+**Apply StatefulSet and Headless Service:**\
 
-kubectl apply -f mysql-statefulset.yaml
-kubectl apply -f mysql-service.yaml
+kubectl apply -f mysql-statefulset.yaml\
+kubectl apply -f mysql-service.yaml\
 
-**Apply ReplicaSet and Service for API:**
+**Apply ReplicaSet and Service for API:**\
 
-kubectl apply -f api-replicaset.yaml
-kubectl apply -f api-service.yaml
+kubectl apply -f api-replicaset.yaml\
+kubectl apply -f api-service.yaml\
 
-**Apply Horizontal Pod Autoscaler:**
+**Apply Horizontal Pod Autoscaler:**\
 
 kubectl apply -f api-hpa.yaml\
-Testing Horizontal Pod Autoscaler/
+Testing Horizontal Pod Autoscaler\
 
 **To test the Horizontal Pod Autoscaler, generate load on the API service:\
 Create a temporary load generator pod:**\
