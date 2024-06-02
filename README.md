@@ -22,24 +22,11 @@ This guide provides steps to deploy a MySQL database and an API service in a Kub
 ## Configuration Files
 
 **MySQL Secret.yaml**
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: mysql-config
-data:
-  MYSQL_DATABASE: mydatabase
+<img width="538" alt="image" src="https://github.com/sureshyadav180157/nKart/assets/171425668/0cb66350-ec81-4d29-a4d1-545e59c864c5">
 
-apiVersion: v1
-kind: Secret
-metadata:
-  name: mysql-secret
-type: Opaque
-data:
-  MYSQL_ROOT_PASSWORD: cGFzc3dvcmQ= # base64 encoded 'password'
-  MYSQL_USER: bXl1c2Vy # base64 encoded 'myuser'
-  MYSQL_PASSWORD: bXlwYXNzd29yZA== # base64 encoded 'mypassword'
 
 **API ConfigMap.yaml**
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -48,5 +35,7 @@ data:
   DB_HOST: mysql
   DB_PORT: "3306"
   DB_NAME: mydatabase
+
+  
 
 
