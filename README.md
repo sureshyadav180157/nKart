@@ -18,6 +18,16 @@ This guide provides steps to deploy a MySQL database and an API service in a Kub
 - A running Kubernetes cluster\
 - `kubectl` command-line tool configured to interact with your cluster\
 - A Docker image for your API service\
+
+**Additional Resources**\
+
+Code Repository: https://github.com/sureshyadav180157/nKart \
+Docker Hub URL: https://hub.docker.com/repositories/amitkumar01 [Username:amitkumar01, Password:amitkumar@01]\
+Service API URL: [API Service URL](http://35.229.218.193/nKart/products) \
+Screen Recording: Screen Recording Video \
+API Docker File Path: https://github.com/sureshyadav180157/nKart/tree/main/NKart-App \
+MySQL Docker File Path: https://github.com/sureshyadav180157/nKart/tree/main/NKart-App/db \
+kubernetes YAML File Path: https://github.com/sureshyadav180157/nKart/tree/main/NKart-App/k8s \
   
 ## Configuration Files\
 
@@ -256,15 +266,6 @@ Run the following command inside the load-generator pod:\
 while true; do wget -q -O- http://api-service; done\
 This will continuously send requests to the API service, triggering the HPA to scale the number of API pods based on CPU utilization.\
 
-**Additional Resources**\
-
-Code Repository: https://github.com/sureshyadav180157/nKart\
-Docker Hub URL: https://hub.docker.com/repositories/amitkumar01[Username:amitkumar01, Password:amitkumar@01]\
-Service API URL: [API Service URL](http://35.229.218.193/nKart/products)\
-Screen Recording: Screen Recording Video\
-API Docker File Path: https://github.com/sureshyadav180157/nKart/tree/main/NKart-App\
-MySQL Docker File Path: https://github.com/sureshyadav180157/nKart/tree/main/NKart-App/db\
-kubernetes YAML File Path: https://github.com/sureshyadav180157/nKart/tree/main/NKart-App/k8s\
 
 
 
