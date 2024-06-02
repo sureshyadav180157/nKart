@@ -1,0 +1,31 @@
+Docker commands:
+docker build -t spring-boot-demo .
+docker push image spring-boot-demo
+docker run -p 8080:8080 spring-boot-demo
+
+Apply the MySQL Secret and ConfigMap:
+kubectl apply -f mysql-secret.yaml
+kubectl apply -f mysql-config.yaml
+
+-----------------------------------
+Apply the MySQL StatefulSet and Service:
+kubectl apply -f mysql-statefulset.yaml
+kubectl apply -f mysql-service.yaml
+
+------------------------------------
+Apply the API Secret and ConfigMap:
+kubectl apply -f api-mysql-secret.yaml
+kubectl apply -f api-config.yaml
+
+--------------------------------------
+Apply the API Deployment and Service:
+kubectl apply -f api-deployment.yaml
+kubectl apply -f api-service.yaml
+
+------------------------------------
+Apply the Horizontal Pod Autoscaler:
+kubectl apply -f api-hpa.yaml
+
+Testing HPA
+To test the Horizontal Pod Autoscaler, you can increase the load on the API service. 
+>kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://35.229.218.193/nKart/products; done"
