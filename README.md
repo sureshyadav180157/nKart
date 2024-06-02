@@ -12,12 +12,12 @@
 - [Testing Horizontal Pod Autoscaler](#testing-horizontal-pod-autoscaler)
 - [Additional Resources](#additional-resources)
 
-## Overview
-This guide provides steps to deploy a MySQL database and an API service in a Kubernetes cluster. The MySQL database is deployed using StatefulSets, ensuring data persistence, while the API service is deployed using ReplicaSets with Horizontal Pod Autoscaler (HPA) to manage load.
-## Prerequisites
-- A running Kubernetes cluster
-- `kubectl` command-line tool configured to interact with your cluster
-- A Docker image for your API service
+## Overview\
+This guide provides steps to deploy a MySQL database and an API service in a Kubernetes cluster. The MySQL database is deployed using StatefulSets, ensuring data persistence, while the API service is deployed using ReplicaSets with Horizontal Pod Autoscaler (HPA) to manage load.\
+## Prerequisites\
+- A running Kubernetes cluster\
+- `kubectl` command-line tool configured to interact with your cluster\
+- A Docker image for your API service\
   
 ## Configuration Files
 
@@ -154,6 +154,114 @@ spec:
   selector:
     app: mysql
 
+**ReplicaSet and Service for API
+API ReplicaSet**
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api
+        image: your-api-image
+        env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: api-config
+              key: DB_HOST
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: api-config
+              key: DB_PORT
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: api-config
+              key: DB_NAME
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: api-secret
+              key: DB_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: api-secret
+              key: DB_PASSWORD
+        ports:
+        - containerPort: 8080
+          name: http
+
+**Horizontal Pod Autoscaler
+API HPA**
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: api-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: ReplicaSet
+    name: api
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
+
+**Deployment Steps
+Apply ConfigMaps and Secrets:**
+
+kubectl apply -f mysql-configmap.yaml
+kubectl apply -f mysql-secret.yaml
+kubectl apply -f api-configmap.yaml
+kubectl apply -f api-secret.yaml
+
+**Apply PersistentVolume and PersistentVolumeClaim:**
+
+kubectl apply -f mysql-pv.yaml
+kubectl apply -f mysql-pvc.yaml
+
+**Apply StatefulSet and Headless Service:**
+
+kubectl apply -f mysql-statefulset.yaml
+kubectl apply -f mysql-service.yaml
+
+**Apply ReplicaSet and Service for API:**
+
+kubectl apply -f api-replicaset.yaml
+kubectl apply -f api-service.yaml
+
+**Apply Horizontal Pod Autoscaler:**
+
+kubectl apply -f api-hpa.yaml\
+Testing Horizontal Pod Autoscaler/
+
+**To test the Horizontal Pod Autoscaler, generate load on the API service:\
+Create a temporary load generator pod:**\
+
+kubectl run -i --tty load-generator --image=busybox /bin/sh\
+Run the following command inside the load-generator pod:\
+while true; do wget -q -O- http://api-service; done\
+This will continuously send requests to the API service, triggering the HPA to scale the number of API pods based on CPU utilization.\
+
+**Additional Resources**\
+
+Code Repository: GitHub Repository Link\
+Docker Hub URL: Docker Hub Repository\
+Service API URL: API Service URL\
+Screen Recording: Screen Recording Video\
 
 
 
