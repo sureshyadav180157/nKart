@@ -24,7 +24,7 @@ This guide provides steps to deploy a MySQL database and an API service in a Kub
 Code Repository: https://github.com/sureshyadav180157/nKart \
 Docker Hub URL: https://hub.docker.com/repositories/amitkumar01 [Username:amitkumar01, Password:amitkumar@01]\
 Service API URL: [API Service URL](http://35.229.218.193/nKart/products) \
-Screen Recording: Screen Recording Video \
+Screen Recording: [Screen Recording Video]https://nagarro-my.sharepoint.com/:v:/p/amit_kumar01/ETJd42c1uiJClzLhPKyZHEwBqXNUackvk1KBz6cJK8cVdg?referrer=Teams.TEAMS-ELECTRON&referrerScenario=MeetingChicletGetLink.view.view \
 API Docker File Path: https://github.com/sureshyadav180157/nKart/tree/main/NKart-App \
 MySQL Docker File Path: https://github.com/sureshyadav180157/nKart/tree/main/NKart-App/db \
 kubernetes YAML File Path: https://github.com/sureshyadav180157/nKart/tree/main/NKart-App/k8s \
