@@ -258,10 +258,13 @@ This will continuously send requests to the API service, triggering the HPA to s
 
 **Additional Resources**\
 
-Code Repository: GitHub Repository Link\
-Docker Hub URL: Docker Hub Repository\
-Service API URL: API Service URL\
+Code Repository: https://github.com/sureshyadav180157/nKart\
+Docker Hub URL: https://hub.docker.com/repositories/amitkumar01[Username:amitkumar01, Password:amitkumar@01]\
+Service API URL: [API Service URL](http://35.229.218.193/nKart/products)\
 Screen Recording: Screen Recording Video\
+API Docker File Path: https://github.com/sureshyadav180157/nKart/tree/main/NKart-App\
+MySQL Docker File Path: https://github.com/sureshyadav180157/nKart/tree/main/NKart-App/db\
+kubernetes YAML File Path: https://github.com/sureshyadav180157/nKart/tree/main/NKart-App/k8s\
 
 
 
